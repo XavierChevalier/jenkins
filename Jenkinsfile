@@ -7,9 +7,9 @@ pipeline {
         }
     }
 
-    environment {
-        PROJECT_GIT_URL = credentials('PROJECT_GIT_URL')
-    }
+    //environment {
+    //    PROJECT_GIT_URL = credentials('PROJECT_GIT_URL')
+    //}
 
     stages {
         stage('Install dependencies') {
