@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                cache(maxCacheSize: 500, caches: [
+                cache(caches: [
                     arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
                     arbitraryFileCache(path: 'apps/auth/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
                     arbitraryFileCache(path: 'apps/blog/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
