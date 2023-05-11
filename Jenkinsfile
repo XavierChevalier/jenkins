@@ -8,8 +8,6 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                git 'https://github.com/XavierChevalier/labeilleviennoise-pipeline.git'
-
                 cache(maxCacheSize: 500, caches: [
                     arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
                     arbitraryFileCache(path: 'apps/auth/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
