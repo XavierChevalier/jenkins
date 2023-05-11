@@ -34,7 +34,7 @@ pipeline {
                             step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
                         }
                     }
-                },
+                }
 
                 stage('Build') {
                     steps {
