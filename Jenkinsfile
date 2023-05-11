@@ -22,27 +22,29 @@ pipeline {
             }
         }
 
-        stage('Run tests') {
-            steps {
-                sh 'pnpm test:coverage'
-            }
+        parallel(
+            'Run tests': {
+                steps {
+                    sh 'pnpm test:coverage'
+                }
 
-            post {
-                always {
-                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
+                post {
+                    always {
+                        step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
+                    }
+                }
+            },
+
+            'Build': {
+                steps {
+                    cache(caches: [
+                        arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
+                    ]) {
+                        sh 'pnpm build'
+                    }
                 }
             }
-        }
-
-        stage('Build') {
-            steps {
-                cache(caches: [
-                    arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
-                ]) {
-                    sh 'pnpm build'
-                }
-            }
-        }
+        )
 
         stage('Deliver') {
             steps {
