@@ -21,9 +21,9 @@ pipeline {
                 }
             }
         }
-        
-        parallel(
-            'Run tests': {
+
+        parallel {
+            stage('Run tests') {
                 steps {
                     sh 'pnpm test:coverage'
                 }
@@ -35,7 +35,7 @@ pipeline {
                 }
             }
 
-            'Build': {
+            stage('Build') {
                 steps {
                     cache(caches: [
                         arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
@@ -44,7 +44,7 @@ pipeline {
                     }
                 }
             }
-        )
+        }
 
         stage('Deliver') {
             steps {
