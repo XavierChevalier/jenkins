@@ -11,7 +11,7 @@ pipeline {
                 git 'https://github.com/XavierChevalier/labeilleviennoise-pipeline.git'
 
                 cache(maxCacheSize: 500, caches: [
-                    arbitraryFileCache(path: '**/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
+                    arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
                 ]) {
                     sh 'pnpm install --no-frozen-lockfile'
                 }
