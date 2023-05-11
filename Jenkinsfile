@@ -21,11 +21,11 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh 'pnpm test:coverage'
+            }
 
-                post {
-                    always {
-                        step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
-                    }
+            post {
+                always {
+                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
                 }
             }
         }
