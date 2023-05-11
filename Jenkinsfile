@@ -12,7 +12,9 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                //git "$PROJECT_GIT_URL"
+                def repositoryUrl = scm.userRemoteConfigs[0].url
+                echo repositoryUrl
+                git repositoryUrl
                 
                 cache(caches: [
                     arbitraryFileCache(path: '**/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
@@ -22,26 +24,24 @@ pipeline {
             }
         }
 
-        parallel {
-            stage('Run tests') {
-                steps {
-                    sh 'pnpm test:coverage'
-                }
-
-                post {
-                    always {
-                        step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
-                    }
-                }
+        stage('Run tests') {
+            steps {
+                sh 'pnpm test:coverage'
             }
 
-            stage('Build') {
-                steps {
-                    cache(caches: [
-                        arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
-                    ]) {
-                        sh 'pnpm build'
-                    }
+            post {
+                always {
+                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                cache(caches: [
+                    arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
+                ]) {
+                    sh 'pnpm build'
                 }
             }
         }
