@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                git "$PROJECT_GIT_URL"
+                //git "$PROJECT_GIT_URL"
                 
                 cache(caches: [
                     arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
