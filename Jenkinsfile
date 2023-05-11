@@ -22,28 +22,24 @@ pipeline {
             }
         }
 
-        stage('Code quality') {
-            parallel {
-                stage('Run tests') {
-                    steps {
-                        sh 'pnpm test:coverage'
-                    }
+        stage('Run tests') {
+            steps {
+                sh 'pnpm test:coverage'
+            }
 
-                    post {
-                        always {
-                            step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
-                        }
-                    }
+            post {
+                always {
+                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'packages/identifier/coverage/cobertura-coverage.xml'])
                 }
+            }
+        }
 
-                stage('Build') {
-                    steps {
-                        cache(caches: [
-                            arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
-                        ]) {
-                            sh 'pnpm build'
-                        }
-                    }
+        stage('Build') {
+            steps {
+                cache(caches: [
+                    arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
+                ]) {
+                    sh 'pnpm build'
                 }
             }
         }
