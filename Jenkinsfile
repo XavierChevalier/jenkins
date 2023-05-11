@@ -1,4 +1,4 @@
-def repositoryUrl = scm.userRemoteConfigs[0].url
+def repositoryUrl = scm.userRemoteConfigs[1].url
 
 pipeline {
     agent {
