@@ -15,6 +15,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 echo "${repositoryUrl}"
+                sh "ls -l"
                 git "${repositoryUrl}"
                 
                 cache(caches: [
