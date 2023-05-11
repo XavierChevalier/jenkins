@@ -1,3 +1,5 @@
+def repositoryUrl = scm.userRemoteConfigs[0].url
+
 pipeline {
     agent {
         docker {
@@ -12,9 +14,8 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                def repositoryUrl = scm.userRemoteConfigs[0].url
-                echo repositoryUrl
-                git repositoryUrl
+                echo "${repositoryUrl}"
+                git "${repositoryUrl}"
                 
                 cache(caches: [
                     arbitraryFileCache(path: '**/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
