@@ -5,9 +5,15 @@ pipeline {
         }
     }
 
+    environment {
+        PROJECT_GIT_URL = credentials('PROJECT_GIT_URL')
+    }
+
     stages {
         stage('Install dependencies') {
             steps {
+                git "$PROJECT_GIT_URL"
+                
                 cache(caches: [
                     arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
                     arbitraryFileCache(path: 'apps/auth/node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml'),
