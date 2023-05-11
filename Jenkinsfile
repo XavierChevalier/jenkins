@@ -53,7 +53,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                cache(maxCacheSize: 500, caches: [
+                cache(caches: [
                     arbitraryFileCache(path: 'node_modules', cacheValidityDecidingFile: 'pnpm-lock.yaml')
                 ]) {
                     sh 'pnpm build'
