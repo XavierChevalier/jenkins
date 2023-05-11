@@ -20,7 +20,13 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                sh 'pnpm test'
+                sh 'pnpm test:coverage'
+
+                post {
+                    always {
+                        step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml'])
+                    }
+                }
             }
         }
 
@@ -33,8 +39,8 @@ pipeline {
         stage('Deliver') {
             steps {
                 input message: 'Do you want to deliver this new version? (Click "Proceed" to continue)'
-                sh 'Deploy...'
-                sh 'Successfully deployed'
+                echo 'Deploy...'
+                echo 'Successfully deployed'
             }
         }
     }
